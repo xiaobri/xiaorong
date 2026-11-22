@@ -1,0 +1,6 @@
+arm,seed,epoch,threshold,tp,fp,fn,tn,f1_points,changed_cached_decisions,source,delta_vs_baseline
+baseline,0,9,0.81,2280,780,1191,161828,69.82085438677079,0,matched baseline or complete model replication,0.0
+baseline,1,14,0.79,2340,922,1131,161686,69.50839150452992,0,matched baseline or complete model replication,0.0
+baseline,2,13,0.81,2315,855,1156,161753,69.7184159012197,0,matched baseline or complete model replication,0.0
+baseline,3,2,0.81,2251,766,1220,161842,69.38964241676942,0,matched baseline or complete model replication,0.0
+baseline,42,5,0.8200000000000001,2321,822,1150,161786,70.1844572119746,0,matched baseline or complete model replication,0.0

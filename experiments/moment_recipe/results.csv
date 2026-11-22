@@ -1,0 +1,6 @@
+arm,seed,epoch,threshold,tp,fp,fn,tn,f1_points,changed_cached_decisions,source,delta_vs_baseline
+moment_recipe,0,9,0.88,2459,994,1012,161614,71.02830733679954,0,new isolated fit and locked replay,1.2074529500287525
+moment_recipe,1,7,0.9400000000000001,2428,935,1043,161673,71.0564822944103,1,new isolated fit and locked replay,1.5480907898803764
+moment_recipe,2,9,0.88,2501,1023,970,161585,71.50822015725518,0,new isolated fit and locked replay,1.789804256035481
+moment_recipe,3,8,0.8200000000000001,2498,1020,973,161588,71.4837601945915,1,original locked single-head replay,2.0941177778220776
+moment_recipe,42,10,0.85,2526,1038,945,161570,71.81236673773988,0,original locked single-head replay,1.6279095257652756

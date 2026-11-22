@@ -1,0 +1,6 @@
+arm,seed,epoch,threshold,tp,fp,fn,tn,f1_points,changed_cached_decisions,source,delta_vs_baseline
+time_native,0,8,0.93,2391,869,1080,161739,71.04442133412569,0,new isolated fit and locked replay,1.2235669473548967
+time_native,1,5,0.92,2515,1135,956,161473,70.63614660862238,0,new isolated fit and locked replay,1.1277551040924578
+time_native,2,3,0.8400000000000001,2456,1004,1015,161604,70.87000432837975,0,new isolated fit and locked replay,1.1515884271600498
+time_native,3,2,0.87,2470,1040,1001,161568,70.76350093109869,0,new isolated fit and locked replay,1.373858514329271
+time_native,42,7,0.93,2375,871,1096,161737,70.71609349411939,0,new isolated fit and locked replay,0.5316362821447882
