@@ -77,7 +77,9 @@ def atomic_torch_save(payload: Any, path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(path.suffix + ".tmp")
     torch.save(payload, temporary)
-    with temporary.open("rb") as handle:
+    # Windows fsync requires a writable descriptor. The file was already
+    # serialized above; reopening without truncation preserves its bytes.
+    with temporary.open("r+b") as handle:
         os.fsync(handle.fileno())
     os.replace(temporary, path)
 
