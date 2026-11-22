@@ -33,7 +33,10 @@ def verify(only=None):
     selected = read(data / 'single_component_seeds.csv')
     summaries = read(data / 'single_component_summary.csv')
     table = {(r['arm'], int(r['seed'])):r for r in selected}
-    arms = {d.name for d in (ROOT / 'experiments').iterdir() if d.is_dir() and (d / 'run.py').exists()}
+    # This verifier covers the 13 archived measurements. New experiment
+    # protocols can have run.py before any measured results are available.
+    arms = {d.name for d in (ROOT / 'experiments').iterdir()
+            if d.is_dir() and (d / 'run.py').exists() and (d / 'results.csv').exists()}
     all_arms = arms | {'baseline', 'fresh_both'}
     if len(arms) != 13 or len(selected) != 75 or set(table) != {(a,s) for a in all_arms for s in SEEDS}:
         raise ValueError('Incomplete or duplicated arm/seed results')
