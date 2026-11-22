@@ -26,6 +26,8 @@
 
 ![各个种子的配对 F1 增益与五种子均值](results/changes.png)
 
+同特征的线性残差对照另行比较 Focal、BCE 和采集组支持集，保留开发学习率选择、追加种子及固定检查点的精确阈值结果。[195 维线性读出实验](experiments/linear_residual_control/)
+
 ## 复核结果
 
 ```bash
