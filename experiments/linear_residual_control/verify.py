@@ -130,6 +130,20 @@ def audit(directory):
     for r in sens:
         close(r['linear_cached_f1'],fitted[(r['arm'],int(r['seed']),rates[r['arm']])])
         close(r['cached_gain'],float(r['linear_cached_f1'])-float(r['matched_core_cached_f1']))
+    audit_record=json.loads((directory/'protocol_audit.json').read_text())
+    assert set(audit_record['seeds'])=={str(s) for s in seeds} and audit_record['all_fits_completed']==36
+    digests=[audit_record['manifest_sha256'],*audit_record['frozen_checkpoint_sha256'].values()]
+    assert len(digests)==6
+    for record in audit_record['seeds'].values():
+        digests.extend((record['init_sha256'],record['ordered_400000_sha256']))
+        assert record['eligible_groups']==9
+    assert all(len(bytes.fromhex(h))==32 for h in digests)
+    probe=json.loads((directory/'feature_check.json').read_text())
+    assert (probe['windows'],probe['features'])==(128,195)
+    assert all(probe[k]==0 for k in ('pair_feature_max_abs','zero_head_logit_max_abs','metadata_feature_max_abs'))
+    assert probe['train_support_unchanged_after_val_mutation'] and probe['eval_state_unchanged']
+    for row in curves:
+        assert float(row['pairs_core_max_abs'])==float(row['pairs_refresh_core_max_abs'])==0
     print('Verified 35 seed results, 35 fixed-checkpoint scans, 400 epoch rows, 36 fits and 21 summaries.')
 
 

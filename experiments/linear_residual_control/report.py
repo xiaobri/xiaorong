@@ -1,21 +1,22 @@
 """Join verified private predictions and publish only aggregate counts and digests."""
 import argparse
 import csv
+import hashlib
 import json
 import statistics
 from pathlib import Path
 
 import numpy as np
 
-from metrics import measure, scan
+from metrics import scan
 from raw_scores import STAGES
 from selection import lock, trajectory, winners
-from study import ARMS, HERE, OUT, REFS, ROOT, SEEDS, digest, fit, folder, load, name, read
+from study import ARMS, HERE, OUT, REFS, ROOT, SEEDS, digest, fit, folder, load, name, original, read
 
 
 def write(directory, filename, records):
     with (directory/filename).open('w',newline='') as stream:
-        writer = csv.DictWriter(stream,fieldnames=list(records[0]))
+        writer = csv.DictWriter(stream,fieldnames=list(records[0]),lineterminator='\n')
         writer.writeheader()
         writer.writerows(records)
 
@@ -50,6 +51,32 @@ def matched_archive(seed, epoch):
         old=load(fit.OUT/'formal'/ref/f'seed{seed}'/f'epoch{epoch:02d}.pt')['model']
         errs[f'{ref}_core_max_abs']=max((v-old[k]).abs().max().item() for k,v in core.items())
     return errs
+
+
+def protocol_audit():
+    config = load(fit.REFERENCE/'best_f1.pt')['config']
+    # The native cache stores Train then Val in manifest order.
+    labels = np.load(fit.bootstrap.CACHE/'labels.npy',mmap_mode='r')[:-166079]
+    assert len(labels) == 731610
+    seeds = {}
+    for seed in SEEDS:
+        rows = trajectory(seed)
+        stream = hashlib.sha256()
+        for epoch,r in enumerate(rows,1):
+            ix,_ = original.sampled_indices(labels,config['samples_per_epoch'],config['ratio'],
+                                           config['sampling'],config['batch_size'],seed,epoch)
+            order = fit.ordered(ix,seed,epoch).tobytes()
+            assert hashlib.sha256(order).hexdigest() == next(iter(r.values()))['batch_order_sha256']
+            stream.update(order)
+        init = read(folder(seed)/'init.json')
+        seeds[seed] = dict(init_sha256=init['sha256'],ordered_400000_sha256=stream.hexdigest(),
+                           eligible_groups=init['eligible_groups'])
+    software = read(folder(3)/'run_summary.json')['software']
+    return dict(base_commit='c1574bb13bd805244f034d9d497b30adf99922ea',
+                manifest_sha256=config['csv_sha256'],all_fits_completed=36,
+                frozen_checkpoint_sha256={k:v['sha256'] for k,v in config['frozen_checkpoint_identity'].items()},
+                software={k:v for k,v in software.items() if k!='cuda_visible_devices'},
+                gpu=read(folder(3)/'run_summary.json')['gpu_name'],seeds=seeds)
 
 
 def generate(dest):
@@ -154,6 +181,7 @@ def generate(dest):
                     ('summary.csv',summaries),('matched_core_sensitivity.csv',sensitivity)]:
         write(dest,filename,records)
     (dest/'selection.json').write_text(json.dumps(read(OUT/'selection.json'),indent=2)+'\n')
+    (dest/'protocol_audit.json').write_text(json.dumps(protocol_audit(),indent=2)+'\n')
     (dest/'feature_check.json').write_text(json.dumps(public_probe,indent=2)+'\n')
 
 

@@ -1,0 +1,11 @@
+{
+  "eval_state_unchanged": true,
+  "features": 195,
+  "metadata_feature_max_abs": 0.0,
+  "pair_feature_max_abs": 0.0,
+  "positive": 64,
+  "seed": 3,
+  "train_support_unchanged_after_val_mutation": true,
+  "windows": 128,
+  "zero_head_logit_max_abs": 0.0
+}

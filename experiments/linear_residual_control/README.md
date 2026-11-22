@@ -2,14 +2,16 @@
 
 在五脑区冻结专家与全局冗余专家的原始模型上，本实验比较四种点监督读出与两个历史配对校正。主要指标是协和固定验证划分的阳性窗口级 F1，百分制。五个种子共用同一份验证数据。开发种子为 3、42，追加种子为 0、1、2。实现从 [c1574bb](https://github.com/xiaobri/xiaorong/tree/c1574bb13bd805244f034d9d497b30adf99922ea) 分出，实验问题与预算见 [issue #1](https://github.com/xiaobri/xiaorong/issues/1)。
 
+最佳线性头（合格采集组＋Focal）五种子 F1 为 **71.015 ± 0.172**，比基线高 **1.290** 点；同一次原始重放的历史配对＋刷新为 **72.120 ± 0.210**。[五种子结果、阈值与解释](RESULTS.md)
+
 ## 干预与比较口径
 
 | 线性读出 | 头部目标 | 参与头部更新的 Train 窗口 |
 | --- | --- | --- |
-| linear_focal_all | 原 Focal，阳性 α=0.85，γ=2 | 全部 |
-| linear_bce_all | 无权重的二元交叉熵 | 全部 |
-| linear_focal_eligible | 同配置 Focal | Train 清单中阳性、阴性均至少 50 个窗口的采集组 |
-| linear_bce_eligible | 无权重的二元交叉熵 | 同一 Train 支持集 |
+| [linear_focal_all](linear_focal_all/) | 原 Focal，阳性 α=0.85，γ=2 | 全部 |
+| [linear_bce_all](linear_bce_all/) | 无权重的二元交叉熵 | 全部 |
+| [linear_focal_eligible](linear_focal_eligible/) | 同配置 Focal | Train 清单中阳性、阴性均至少 50 个窗口的采集组 |
+| [linear_bce_eligible](linear_bce_eligible/) | 无权重的二元交叉熵 | 同一 Train 支持集 |
 
 每个脑区依次提供 32 个 pooled hidden coordinates、整窗脑区 logit margin，以及由八个块的 margin 得到的均值、总体标准差、最大值、最小值、最大两个值的均值和相邻差绝对值的均值。五区共 195 维。训练、推理直接调用历史分支的特征实现，按相同次序拼接，分离梯度并裁剪到 [−32, 32]。原始 EEG 重放注册相同的 block hooks。组 ID 只用于 Train 过滤。[原始特征定义](../../source/I2MOE/test333/fair_analytic_regions_20261120/analytic_models.py) · [新读出](study.py)
 

@@ -1,0 +1,47 @@
+{
+  "base_commit": "c1574bb13bd805244f034d9d497b30adf99922ea",
+  "manifest_sha256": "a67f464878b04fa483ce58d15f6ec8d64dd06d06cbb58b65f34b634bfbc3bbde",
+  "all_fits_completed": 36,
+  "frozen_checkpoint_sha256": {
+    "unique_frontal": "bff6c198f5048a5495230ffd47a143056258a11f0752f352dce25b72c6e1b2ab",
+    "unique_left_temporal": "92204702a91a8944b106ed58035fa7aff1699d46c79e862b72f70ceca1e627ae",
+    "unique_right_temporal": "d8c0f26d09e49c28a38bcffe230550bd325c5cc7fff5a6d29e731dc4b51c34ad",
+    "unique_centro_parietal": "fa4222378f43cd6fa4ef7170c2d2782a3630352ebc2fd6cca936d0bafde70cad",
+    "unique_occipital": "6b53090b45e930a39a9311d7e0a44b7ca04714c96f3685cadfd31a27931bd4e3"
+  },
+  "software": {
+    "cuda_runtime": "12.1",
+    "numpy": "2.2.6",
+    "python": "3.10.20",
+    "torch": "2.4.0+cu121",
+    "torchvision": "0.19.0+cu121"
+  },
+  "gpu": "NVIDIA RTX A6000",
+  "seeds": {
+    "0": {
+      "init_sha256": "ebb6364b6e08ae020a5f40f4e09e4c85e113356d32fbe7f6da38315e7f31fb19",
+      "ordered_400000_sha256": "591eead5f61fe04ff9f9e40978c640589cfa9a908257c7c14e51be9aad0769fb",
+      "eligible_groups": 9
+    },
+    "1": {
+      "init_sha256": "ec3b389831fe9331ee3e6bc2e6ab9d54d61ea7e4553891fadc4d6ecfd78e1245",
+      "ordered_400000_sha256": "2b0ceec7d1ccc5bddb002c2851171f471a4b68baa4841b32eb6139769bffce8e",
+      "eligible_groups": 9
+    },
+    "2": {
+      "init_sha256": "a5116104e92de514589679bcd365ac1a63e2fc422a1e25aee5e4200ec6c18ae9",
+      "ordered_400000_sha256": "2da6014f19961dcb063a23fc9710b8227f2b4c067304166fc7951ceba93c20c7",
+      "eligible_groups": 9
+    },
+    "3": {
+      "init_sha256": "2b44a711d4d1ba06dba85e7ee84f03a39a5f3042df5b3eb1cc427415c6274eaf",
+      "ordered_400000_sha256": "c5b980c784bc35eb473dead467c02639521551d432d6e68f346daab67f4eaf93",
+      "eligible_groups": 9
+    },
+    "42": {
+      "init_sha256": "dbedf707aed6f9d9e69d1eeb2898a87eb8a68a2678726ca7b96b66e4b6b61568",
+      "ordered_400000_sha256": "3d6ecfa2cfdc0d1f2bbef085fb622bb0cffeff75cd33df82cf3c6d3049bc6a50",
+      "eligible_groups": 9
+    }
+  }
+}
